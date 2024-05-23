@@ -50,7 +50,7 @@ echo "iptables -P INPUT ACCEPT" >> /etc/iptables.sh
 echo "iptables -P OUTPUT ACCEPT" >> /etc/iptables.sh
 echo "iptables -P FORWARD ACCEPT" >> /etc/iptables.sh
 
-echo "iptables -t nat -A POSTROUTING -o $WAN -j MASQUERADE" >> /etc/iptables.sh
+echo "iptables -t nat -A POSTROUTING -o \$WAN -j MASQUERADE" >> /etc/iptables.sh
 
 echo "/sbin/iptables-save > /etc/iptables.rules" >> /etc/iptables.sh
 echo "post-up iptables-restore < /etc/iptables.rules" >> /etc/network/interfaces
