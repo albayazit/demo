@@ -8,11 +8,12 @@ echo "ISP-BR:"
 read ISPBR
 echo "ISP-CLI:"
 read ISPCLI
+
 echo -e "\nauto $ISPHQ \niface $ISPHQ inet static\naddress 2.2.2.1\nnetmask 255.255.255.0\n" >> /etc/network/interfaces
 echo -e "auto $ISPBR \niface $ISPBR inet static\naddress 3.3.3.1\nnetmask 255.255.255.0\n" >> /etc/network/interfaces
 echo -e "auto $ISPCLI \niface $ISPCLI inet static\naddress 10.10.10.1\nnetmask 255.255.255.0\n" >> /etc/network/interfaces
 
-systemctl restart networking
+systemctl restart networking.service
 
 
 
@@ -34,7 +35,9 @@ echo "Creating iptables rules..."
 touch /etc/iptables.sh
 
 echo "#!/bin/bash" >> /etc/iptables.sh
-echo -e "export WAN=\"enpos3\"" >> /etc/iptables.sh
+echo "NAT interface (default enp0s3):" >> /etc/iptables.sh
+echo "read NAT" >> /etc/iptables.sh
+echo -e "export WAN=\"$NAT\"" >> /etc/iptables.sh
 
 echo "iptables -F" >> /etc/iptables.sh
 echo "iptables -F -t nat" >> /etc/iptables.sh
