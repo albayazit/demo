@@ -34,7 +34,7 @@ echo "Creating iptables rules..."
 touch /etc/iptables.sh
 
 echo "#!/bin/bash" >> /etc/iptables.sh
-echo "export WAN="enpos3"" >> /etc/iptables.sh
+echo -e "export WAN=\"enpos3\"" >> /etc/iptables.sh
 
 echo "iptables -F" >> /etc/iptables.sh
 echo "iptables -F -t nat" >> /etc/iptables.sh
