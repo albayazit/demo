@@ -35,8 +35,8 @@ echo "Creating iptables rules..."
 touch /etc/iptables.sh
 
 echo "#!/bin/bash" >> /etc/iptables.sh
-echo "NAT interface. Default enp0s3:" >> /etc/iptables.sh
-echo "read NAT" >> /etc/iptables.sh
+echo "NAT interface. Default enp0s3:"
+read NAT
 echo -e "export WAN=\"$NAT\"" >> /etc/iptables.sh
 
 echo "iptables -F" >> /etc/iptables.sh
