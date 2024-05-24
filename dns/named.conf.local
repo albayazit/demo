@@ -1,0 +1,23 @@
+//
+// Do any local configuration here
+//
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+// include "/etc/bind/zones.rfc1918";
+
+zone "hq.work" {
+  type master;
+  file "/etc/bind/zones/db.hq.work";
+};
+zone "20.20.20.in-addr.arpa" {
+  type master;
+  file "/etc/bind/zones/db.20.20.20";
+};
+zone "branch.work" {
+  type master;
+  file "/etc/bind/zones/db.branch.work";
+};
+zone "30.30.30.in-addr.arpa" {
+  type master;
+  file "/etc/bind/zones/db.30.30.30";
+};
