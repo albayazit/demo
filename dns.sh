@@ -20,6 +20,6 @@ mv db.hq.work /etc/bind/zones/
 echo "Checking with named-checkconf..."
 named-checkconf
 named-checkconf -z
-echo "Deleting trash files..."
 systemctl restart bind9
-echo "Done! Add new DNS server '20.20.20.2' in /etc/reslov in all machines."
+echo "nameserver 20.20.20.2" >> /etc/resolv.conf
+echo "Done! Add new DNS server '20.20.20.2' in /etc/reslov.conf in all machines."

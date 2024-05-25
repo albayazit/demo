@@ -2,14 +2,15 @@
 ; BIND reverse data file for local loopback interface
 ;
 $TTL	604800
-@	IN	SOA	branch.work. root.branch.work. (
+@	IN	SOA	hq.work. root.hq.work. (
 			     10		; Serial
 			 604800		; Refresh
 			  86400		; Retry
 			2419200		; Expire
 			 604800 )	; Negative Cache TTL
 ;
-@	IN	NS	hq.work.
+@	IN	NS	branch.work.
 @	IN	A	20.20.20.2
-hq-srv.hq.work.	IN	A	20.20.20.2
-hq-srv.hq.work.	IN	A	20.20.20.1
+br-srv.branch.work.	IN	A	30.30.30.2
+br-r.branch.work.	IN	A	30.30.30.1
+
