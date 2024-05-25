@@ -5,7 +5,7 @@ sed -i 's/\/\/\t0.0.0.0;/ 8.8.8.8;/' /etc/bind/named.conf.options
 sed -i 's/\/\/ };/};/' /etc/bind/named.conf.options
 wget albayazit.github.io/demo/dns/named.conf.local
 rm -rf /etc/bind/named.conf.local
-mv named.conf.local /etc/bind/named.local.conf
+mv named.conf.local /etc/bind/named.co.local
 wget albayazit.github.io/demo/dns/db.30.30.30
 wget albayazit.github.io/demo/dns/db.20.20.20
 wget albayazit.github.io/demo/dns/db.branch.work
