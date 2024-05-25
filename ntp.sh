@@ -12,11 +12,13 @@ rm -rf /etc/chrony/chrony.conf
 if [[ $MACHINE -eq 1 ]]; then
     wget albayazit.github.io/demo/chrony/chrony_hqr.conf
     mv chrony_hqr.conf /etc/chrony/chrony.conf
+    systemctl enable --now chrony
     chronyc sources
 elif [[ $MACHINE -eq 2 ]]; then
     wget albayazit.github.io/demo/chrony/chrony.conf
     mv chrony.conf /etc/chrony/chrony.conf
     systemctl restart chrony
+    systemctl enable --now chrony
     chronyc sources
 else
     echo "INCORRECT INPUT"

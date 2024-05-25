@@ -8,7 +8,7 @@ apt-get install frr -y
 sed -i 's/ospfd=no/ospfd=yes/' /etc/frr/daemons
 
 if [[ $NUM -eq 1 ]]; then
-    ROUTER=10.10.10.1
+    
 elif [[ $NUM -eq 2 ]]; then
     echo "2";
 elif [[ $NUM -eq 3 ]]; then

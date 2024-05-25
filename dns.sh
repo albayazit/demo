@@ -22,6 +22,6 @@ named-checkconf
 named-checkconf -z
 systemctl restart bind9
 echo "nameserver 20.20.20.2" > /etc/resolv.conf
-echo "echo \"20.20.20.2\" >> /etc/resolv.conf" >> /etc/network/interfaces
+echo -e "\necho \"20.20.20.2\" >> /etc/resolv.conf" >> /etc/network/interfaces
 apt-get install dnsutils
 echo "Done!"
