@@ -22,4 +22,4 @@ named-checkconf
 named-checkconf -z
 systemctl restart bind9
 echo "nameserver 20.20.20.2" > /etc/resolv.conf
-echo "Done! Add new DNS server '20.20.20.2' in /etc/reslov.conf in all machines."
+echo "Done!"
