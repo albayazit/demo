@@ -1,0 +1,21 @@
+
+[branch_files]
+path = /mnt/files/branch_files
+valid users = branch_admin
+guest ok = no
+read only = yes
+browsable = yes
+
+[network]
+path = /mnt/files/network
+valid users = network_admin
+guest ok = no
+read only = no
+browsable = yes
+
+[admin_files]
+path = /mnt/files/admin_files
+valid users = admin
+guest ok = no
+read only = no
+browsable = yes
