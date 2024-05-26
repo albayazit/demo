@@ -37,7 +37,7 @@ Scripts on server:
 ------------------------------------------------------
 [MODULE_1]
 ----------------------------
-I. Network
+[I. Network]
 NE ZABUDb PRO GATEWAY
 1. ISP
 nano /etc/iptables.sh
@@ -65,7 +65,7 @@ chmod 0740 /etc/iptables.sh
 2. nano /etc/network/interfaces
 post-up iptables-restore < /etc/iptables.rules
 ----------------------------
-II. FRR -  ISP, BR-R, HQ-R
+[II. FRR -  ISP, BR-R, HQ-R]
 
 apt-get install frr
 1. nano /etc/frr/daemons           
@@ -105,7 +105,7 @@ nano /etc/network/interfaces
 
 post-up /etc/gre.tun
 ----------------------------
-III. DHCP - HQ-R
+[III. DHCP - HQ-R]
 apt-get install isc-dhcp-server
 
 nano /etc/default/isc-dhcp-server
@@ -123,4 +123,62 @@ host hq_srv {
   hardware ethernet <mac-address>;
   fixed-address 20.20.20.2;
 }
+----------------------------
+[IV. Users]
+adduser <username>
+usermod -aG sudo <username> (optional)
+  ----------------------------
+[V. iperf3]
+apt-get install iperf3
+
+[ISP]
+iperf3 -s
+[HQ-R]
+iperf3 -c 2.2.2.1
+
+[VI. backups]
+mkdir /opt/backups
+nano backup.sh
+
+#!/bin/bash
+echo "Start..."
+DATE=$(date +%Y-%m-%d-%T)
+rsync -art -t /etc/ /opt/backups/$DATE
+echo "Backup done!"
+----------------------------
+[VII. SSH - HQ-SRV]
+1. nano /etc/ssh/sshd_config
+Port <your_port>
+systemctl restart sshd
+
+2. nano /etc/iptables.sh
+<-
+#!bin/bash
+export WAN="enp0s3"
+iptables -F
+iptables -F -t nat
+iptables -F -t mangle
+iptables -X
+iptables -X -t nat
+iptables -X -t mangle
+
+iptables -P INPUT ACCEPT
+iptables -P OUTPUT ACCEPT
+iptables -P FORWARD ACCEPT
+
+iptables -t nat -A PREROUTING -p tcp --dport
+
+/sbin/iptables-save > /etc/iptables.rules
+->
+chmod 0740 /etc/iptables.sh
+/etc/iptables.sh
+
+2. nano /etc/network/interfaces
+post-up iptables-restore < /etc/iptables.rules
+----------------------------
+[VIII. Zapret SSH]
+nano /etc/ssh/sshd_config
+DenyUsers *@10.10.10.2
 ------------------------------------------------------
+[MODULE_2]
+----------------------------
