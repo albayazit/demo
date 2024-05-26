@@ -182,3 +182,83 @@ DenyUsers *@10.10.10.2
 ------------------------------------------------------
 [MODULE_2]
 ----------------------------
+[I. DNS] - HQ-SRV
+curl https://albayazit.github.io/demo/dns.sh
+chtobi protestirovatb:
+nslookup hq-work.hq.work
+nslookup hq-r.hq.work
+----------------------------
+[II. NTP server]
+[HQ-R]
+~/: nano /etc/chrony/chrony.conf
+server 127.0.0.1 iburst prefer
+hwtimestamp *
+local stratum 5
+allow 0/0
+
+systemctl enable --now chrony
+systemctl restart chrony
+
+timedatectl set-timezone Europe/Moscow
+
+chronyc sources
+chronyc clients
+[OTHER]
+~/: nano /etc/chrony/chrony.conf
+server 20.20.20.1 iburst prefer
+----------------------------
+[III. Domain server]
+[HQ-SRV]
+apt-get install samba smbclient krb5-user winbind -y
+vezde pishem hq-srv
+samba-tool domain provision --use-rfc2307 --interactive
+----------------------------
+[IV. File server]
+[HQ-SRV]
+curl https://albayazit.github.io/demo/samba.sh
+----------------------------
+[V. Apache] 
+[BR-SRV]
+apt-get install apache2 -y
+rm -f /var/www/html/index.html
+echo “Nomer mesta 5” > /var/www/html/index.html
+
+Proverka: zaiti v mozil i v adrese napisatb localhost
+----------------------------
+[VI. MediaWiki] 
+[HQ-SRV]
+apt-get install -y docker-{ce,compose}
+systemctl enable --now docker.service
+nano ~/wiki.yml
+
+------------------------------------------------------
+[MODULE_3]
+----------------------------
+[I. Rsyslog] 
+[BR-SRV]
+nano /etc/rsyslog.d/base.conf
+<-
+module(load=”imudp”)
+input(type=”imudp” port=”514”)
+
+module(load=”imtcp”)
+input(type=”imtcp” port=”514”)
+
+$template RemoteLogs, “/var/log/rsyslog/%HOSTNAME%/%PROGRAMNAME.log”
+*.* ?RemoteLogs
+& ~
+->
+nano /etc/rsyslog.d/client.conf
+*.* @@30.30.30.2:514
+
+systemctl restart rsyslog
+
+[OTHER] 
+nano /etc/rsyslog.d/client.conf
+*.* @@(ip-address BR-SRV):514
+
+Test:
+logger -p 'error' 'Test' - in BR-R
+ls -l /var/log/rsyslog/ - in BR-SRV
+----------------------------
+[II. ]
