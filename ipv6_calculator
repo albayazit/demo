@@ -315,12 +315,76 @@ apt-get install cups -y
 
 infa o vseh printerah:
 lpstat -l -d
-
+ 
+nano /etc/cups/cupsd.conf
+<--
+comment 'Listen localhost:631'
+Port 631
+add 'Allow from all' in <Location / & admin>
+-->
+[ISP] 
+https://30.30.30.2:631/admin
+'add printer' 
+https 
+https://30.30.30.2/br-srv-printer
 
 ----------------------------
 [VII. PRIVATE TUNNEL]
-[HQ-R BR-R
+[HQ-R BR-R]
 apt-get install strongswan -y 
+
+[HQ-R] 
+1. nano /etc/ipsec.conf
+
+config setup
+
+conn sts-base
+    fragmentation=yes
+    dpdaction=restart
+    ike=aes256-sha256-modp3072
+    esp=aes256-sha256-ecp256-modp3072
+    keyexchange=ikev2
+    type=transport
+    keyingtries=%forever
+  
+conn gre1
+    also=sts-base
+    left=2.2.2.2
+    leftauth=psk
+    right=3.3.3.2
+    rightauth=psk
+    auto=route
+
+2. nano /etc/ipsec.conf 
+2.2.2.2 3.3.3.2 : PSK "secretkey"
+
+[BR-R] 
+1. nano /etc/ipsec.conf
+
+config setup
+
+conn sts-base
+    fragmentation=yes
+    dpdaction=restart
+    ike=aes256-sha256-modp3072
+    esp=aes256-sha256-ecp256-modp3072
+    keyexchange=ikev2
+    type=transport
+    keyingtries=%forever
+  
+conn gre1
+    also=sts-base
+    left=3.3.3.2
+    leftauth=psk
+    right=2.2.2.2
+    rightauth=psk
+    auto=route
+
+2. nano /etc/ipsec.conf 
+3.3.3.2 2.2.2.2 : PSK "secretkey"
+
+systemctl restart strongswan-starter.service 
+
 
 ----------------------------
 [IX. RAID] 
