@@ -29,11 +29,11 @@ Telegraph address:
 https://telegra.ph/DEMO-Base-05-06
 ------------------------------------------------------
 Scripts on server:
-1. _backup_script - HQ-R, BR-R
-2. _isp - ISP conf to iptables
-3. _dns - HQ-SRV
-4. _ntp - HQ-R
-5. _samba - HQ-SRV
+1. backup_script - HQ-R, BR-R
+2. isp - ISP conf to iptables
+3. dns - HQ-SRV
+4. ntp - HQ-R
+5. samba - HQ-SRV
 ------------------------------------------------------
 [MODULE_1]
 ----------------------------
