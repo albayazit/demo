@@ -261,4 +261,115 @@ Test:
 logger -p 'error' 'Test' - in BR-R
 ls -l /var/log/rsyslog/ - in BR-SRV
 ----------------------------
-[II. ]
+[III. SSH]
+
+[HQ-R]
+ssh-keygen
+ssh-copy-id admin@20.20.20.2
+
+[HQ-SRV]
+nano /etc/ssh/sshd_config
+<-
+Banner /etc/ssh/sshd_banner
+PermitRootLogin no
+PasswordAuthentification no
+Port <VASH_PORT>
+MaxAuthTries 4
+PermitEmptyPasswords no
+LoginGraceTime 5m
+PubkeyAuthentification yes
+->
+nano /etc/ssh/sshd_banner
+hello!
+
+----------------------------
+[V. Traffic]
+[BR-R] 
+apt-get install iptables -y 
+nano /etc/iptables.sh
+<-
+#!bin/bash
+
+iptables -F
+iptables -F -t nat
+iptables -F -t mangle
+iptables -X
+iptables -X -t nat
+iptables -X -t mangle
+
+iptables -P INPUT ACCEPT
+iptables -P OUTPUT ACCEPT
+iptables -P FORWARD ACCEPT
+
+/sbin/iptables-save > /etc/iptables.rules
+->
+chmod 0740 /etc/iptables.sh
+/etc/iptables.sh
+
+nano /etc/network/interfaces
+post-up iptables-restore < /etc/iptables.rules
+----------------------------
+[VI. CUPS printer]
+[BR-SRV] 
+apt-get install cups -y
+
+infa o vseh printerah:
+lpstat -l -d
+
+
+----------------------------
+[VII. PRIVATE TUNNEL]
+[HQ-R BR-R
+apt-get install strongswan -y 
+
+----------------------------
+[IX. RAID] 
+ADD DISKS ON VIRTUAL BOX
+[BR-SRV] 
+apt-install mdadm 
+lsblk 
+
+mdadm --create /dev/<название массива> --level=<Версия RAID> --raid-devices=<Количество устройств для массива> /dev/<Диск 1> ... /dev/<Диск n>
+mdadm --create /dev/md0  --level=5 --raid-devices=3 /dev/sdb /dev/sdc /dev/sdd - example
+
+mkfs -t ext4 /dev/md0
+mount /dev/md0 /mnt
+touch /mnt/test.files
+echo “test” > /mnt/test.files
+cat /mnt/test.files
+lsblk
+----------------------------
+[X. BACULA] 
+[HQ-SRV] 
+apt-get install bacula -y 
+  yes
+  localhost
+
+[BR-SRV] 
+apt-get install bacula-client 
+
+--------------------------------------------------------
+[END] 
+[ISP]
+nano /etc/iptables.sh
+<-
+#!bin/bash
+export WAN="enp0s3"
+iptables -F
+iptables -F -t nat
+iptables -F -t mangle
+iptables -X
+iptables -X -t nat
+iptables -X -t mangle
+
+iptables -P INPUT ACCEPT
+iptables -P OUTPUT ACCEPT
+iptables -P FORWARD ACCEPT
+
+iptables -t nat -A POSTROUTING -s 10.10.10.0/24 -o $WAN -j MASQUERADE
+
+/sbin/iptables-save > /etc/iptables.rules
+->
+[CLI] 
+nano /etc/reslov.conf - 8.8.8.8
+--------------------------------------------------------
