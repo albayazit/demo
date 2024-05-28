@@ -10,8 +10,8 @@ smbpasswd -a admin
 smbpasswd -a network_admin
 smbpasswd -a branch_admin
 wget albayazit.github.io/demo/samba/smbconf
-users >> /etc/samba/smb.conf
-rm users
+smbconf >> /etc/samba/smb.conf
+rm smbconf
 systemctl restart smbd.service
 echo "Done!"
 echo "On HQ-R: smbclient //20.20.20.2/admin_files -U admin"
