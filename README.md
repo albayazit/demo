@@ -12,5 +12,5 @@ Several scripts and recordings for performing a demo exam in the specialty netwo
 - isp.sh - script for main router
 
 ### Usage
-`curl -O https://albayazit.github.io/demo/<file_name>` or
+`curl -O https://albayazit.github.io/demo/<file_name>` or\
 `wget https://albayazit.github.io/demo/<file_name>`
