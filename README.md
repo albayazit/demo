@@ -11,6 +11,8 @@ Several scripts and recordings for performing a demo exam in the specialty netwo
 - ntp.sh - script to deploy a NTP server using chrony
 - isp.sh - script for main router
 
+Developed for Debian 12
+
 ### Usage
 `curl -O https://albayazit.github.io/demo/<file_name>` or\
 `wget https://albayazit.github.io/demo/<file_name>`
